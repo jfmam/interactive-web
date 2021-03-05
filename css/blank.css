@@ -1,0 +1,34 @@
+@charset 'utf-8';
+
+html {
+  font-family: "Noto Sans Kr", sans-serif;
+  font-size: 14px;
+}
+
+body {
+  overflow-x: hidden;
+  color: rgb(29, 29, 31);
+  letter-spacing: -0.05em;
+  background: white;
+}
+
+p {
+  line-height: 1.6;
+}
+
+.navigation {
+  height: 44px;
+}
+
+.local-navigation__links,
+.navigation__links {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navigation__links {
+  justify-content: space-between;
+}
