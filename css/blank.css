@@ -129,6 +129,20 @@ a {
   background-color: bisque;
 }
 
+.sticky-elem {
+  display: none;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+#show-scene-0 #scroll-section-0 .sticky-elem,
+#show-scene-1 #scroll-section-1 .sticky-elem,
+#show-scene-2 #scroll-section-2 .sticky-elem,
+#show-scene-3 #scroll-section-3 .sticky-elem {
+  display: block;
+}
+
 @media (min-width: 1024px) {
   #scroll-section-0 h1 {
     font-size: 9vw;
@@ -144,20 +158,20 @@ a {
   }
 
   #scroll-section-2 .main-message {
-      font-size: 6vw;
+    font-size: 6vw;
   }
   .main-message small {
-      font-size: 1.5vw;
+    font-size: 1.5vw;
   }
   .desc-message {
-      width: 20%;
+    width: 20%;
   }
-  .mid-message  {
-      font-size:  4vw;
-      /* 창크기에 따른 크기 */
+  .mid-message {
+    font-size: 4vw;
+    /* 창크기에 따른 크기 */
   }
   .canvas-caption {
-      font-size: 2rem;
-      /* px에 의한 고정 값 */
+    font-size: 2rem;
+    /* px에 의한 고정 값 */
   }
 }
