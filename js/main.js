@@ -1,6 +1,8 @@
 (() => {
 
     let yOffset = 0;
+    let prevScrollHeight = 0; // 현재 스크롤 위치 보다 이전에 위치한 스크롤섹션들의 높이 합
+    let currentScene = 0 // 현재 활성화 된 씬
 
     const sceneInfo = [
         {
@@ -50,7 +52,19 @@
 
     function scrollLoop() {
         //현재 스크롤 위치
-        console.log(yOffset);
+        prevScrollHeight = 0; // 이전 씬의 위치
+        for(let i =0; i< currentScene; i++) {
+            prevScrollHeight += sceneInfo[i].scrollHeight
+        }
+
+        // console.log('prevScrollHeight',prevScrollHeight)
+        if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+            currentScene ++;
+        }
+        if(yOffset < prevScrollHeight) {
+            currentScene--;
+        }
+        console.log(currentScene)
     }
     
     window.addEventListener('resize', setLayout);
