@@ -61,7 +61,7 @@
         if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
             currentScene ++;
         }
-        if(yOffset < prevScrollHeight) {
+        if(yOffset < prevScrollHeight && currentScene > 0) {
             currentScene--;
         }
         console.log(currentScene)
