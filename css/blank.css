@@ -49,16 +49,7 @@ body.before-load {
   padding: 0 1rem;
   border-bottom: 1px solid #ddd;
 }
-.local-nav-sticky .local-nav {
-  position: fixed;
-  top: 0;
-  background: rgba(255, 255, 255, 0.1);
-  /* for iPhone */
-  -webkit-backdrop-filter: saturate(180%) blur(15px);
-  -moz-backdrop-filter: saturate(180%) blur(15px);
-  -o-backdrop-filter: saturate(180%) blur(15px);
-  backdrop-filter: saturate(180%) blur(15px);
-}
+
 .global-nav-links,
 .local-nav-links {
   display: flex;
@@ -131,7 +122,7 @@ body.before-load {
 .sticky-elem.desc-message {
   width: 45%;
   font-weight: bold;
-  opacity: 0;
+  opacity: 1;
 }
 .pin {
   width: 1px;
@@ -172,9 +163,18 @@ body.before-load {
   background: darkorange;
 }
 
-.normal-content {
-  margin-bottom: 10rem;
+.sticky-elem {
+  position: fixed;
+  left: 0;
+  width: 100%;
 }
+#show-scene-0 #scroll-section-0 .sticky-elem,
+#show-scene-1 #scroll-section-1 .sticky-elem,
+#show-scene-2 #scroll-section-2 .sticky-elem,
+#show-scene-3 #scroll-section-3 .sticky-elem {
+  display: block;
+}
+/* show scene의 경우 보여주는 부분에 대해서만 display block으로 변경하여 보이게 해준다. */
 
 @media (min-width: 1024px) {
   #scroll-section-0 h1 {
@@ -196,7 +196,9 @@ body.before-load {
   .main-message small {
     font-size: 1.5vw;
   }
-
+  .sticky-elem.desc-message {
+    width: 20%;
+  }
   .mid-message {
     width: 1000px;
     padding: 0;
