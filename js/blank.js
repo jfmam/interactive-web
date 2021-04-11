@@ -1,4 +1,8 @@
 (() => {
+    let yOffset; // window.pageYoffset
+    let prevScrollHeight = 0 // 현재스크롤 위치보다 이전에 위치한 스크롤의 값
+    let currentScene = 0; // 현재 활성화 된 screen
+
     const sceneInfo = [
         {
             type: 'sticky',
@@ -42,14 +46,28 @@
         }
     }
     
-    let yOffset = 0;
     const scrollLoop = () => {
-        // console.log(window.pageYOffset) 현재 스크롤의 위치를 반환한다.
+        prevScrollHeight = 0;
+        for(let i =0; i < currentScene; i++) {
+           prevScrollHeight += sceneInfo[i].scrollHeight;
+       }
+
+       if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+           currentScene++;
+       } 
+
+       if(yOffset < prevScrollHeight) {
+           if(currentScene === 0) {
+               return;
+           }
+           
+           currentScene--;
+       }
     }
     
     window.addEventListener('resize', setLayout)
     window.addEventListener('scroll', () => {
-        yOffset = window.pageYOffset;
+        yOffset = window.pageYOffset; // 현재 layout의 y 위치
         scrollLoop();
     })
     setLayout();
