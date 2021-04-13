@@ -60,9 +60,11 @@
            if(currentScene === 0) {
                return;
            }
-           
+
            currentScene--;
        }
+
+       document.body.setAttribute("id", `scroll-section-${currentScene}`)
     }
     
     window.addEventListener('resize', setLayout)
