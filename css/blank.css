@@ -23,9 +23,6 @@ a {
   text-decoration: none;
 }
 
-body.before-load {
-  overflow: hidden;
-}
 .container {
   /* iPhone 가로 스크롤 방지 */
   overflow-x: hidden;
