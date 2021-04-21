@@ -16,7 +16,7 @@
                 messageD: document.querySelector('#scroll-section-0 .main-message.d'),
             },
             values: { //css조작을 위한 object
-                messageA_opacity:[0, 1]
+                messageA_opacity:[0, 1] // css opacity값이아니라 messageA가 opcity적용이 되는 시작과 끝을 나타내는 변수
             }
         },
         {
@@ -64,9 +64,25 @@
         }
     }
 
+    function calcValues(values, currentYOffset) { // 시작과 끝 값 array
+        //currentYOffset 은 현재 스크롤 위치
+        let rv;
+        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+        // 현재 scene에서의 위치에서 현재 씬의 height값을 나눈다 -> 현재 씬에서의 스크롤 비율 값
+        rv =scrollRatio * (values[1] - values[0]) + values[0]
+
+        return rv;
+    } // 현재 scene이 스크롤 위치를 구하기 위한 함수
+
+
     function playAnimation() {
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values;
+        const currentYOfsset = yOffset - prevScrollHeight; // 현재 scene에서의 위치, scene이 처음이 되면 0부터 시작한다.
         switch (currentScene) {
             case 0 :
+                let messageA_opacity_in = calcValues(values.messageA_opacity, currentYOfsset); 
+                objs.messageA.style.opacity = messageA_opacity_in;
                 break;
             case 1 :
                 break;
