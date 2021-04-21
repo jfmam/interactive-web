@@ -2,6 +2,7 @@
     let yOffset; // window.pageYoffset
     let prevScrollHeight = 0 // 현재스크롤 위치보다 이전에 위치한 스크롤의 값
     let currentScene = 0; // 현재 활성화 된 screen
+    let enterNewScene = false; // 새로운 scene이 시작 되는 순간 true
 
     const sceneInfo = [
         {
@@ -16,7 +17,8 @@
                 messageD: document.querySelector('#scroll-section-0 .main-message.d'),
             },
             values: { //css조작을 위한 object
-                messageA_opacity:[0, 1] // css opacity값이아니라 messageA가 opcity적용이 되는 시작과 끝을 나타내는 변수
+                messageA_opacity:[0, 1, { start: 0.1, end: 0.2 }], // css opacity값이아니라 messageA가 opcity적용이 되는 시작과 끝을 나타내는 변수
+                messageB_opacity:[0, 1, { start: 0.3, end: 0.4 }] // start,end 객체는 구체적인 타이밍을 계산하기 위한 객체로 스크롤 위치의 비율로 들어가 소수점이다. 
             }
         },
         {
@@ -67,9 +69,29 @@
     function calcValues(values, currentYOffset) { // 시작과 끝 값 array
         //currentYOffset 은 현재 스크롤 위치
         let rv;
-        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+        const scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+        const scrollHeight = sceneInfo[currentScene].scrollHeight;
         // 현재 scene에서의 위치에서 현재 씬의 height값을 나눈다 -> 현재 씬에서의 스크롤 비율 값
-        rv =scrollRatio * (values[1] - values[0]) + values[0]
+        if (values.length === 3) {
+            // start ~end 사이의 애니메이션 실행
+            const partScrollStart = values[2].start * scrollHeight;
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
+
+            if(currentYOffset <= partScrollStart && currentYOffset <=partScrollEnd) {
+                rv = (currentYOffset - partScrollStart)/partScrollHeight * (values[1] - values[0]) + values[0]
+                // start와 end 사이인 경우
+            }
+             else if (currentYOffset < partScrollStart) {
+                rv = values[0] // start지점 이전인 경우
+            } else if ( currentYOffset > partScrollEnd) {
+                rv = values[1] // end지점 이후인 경우
+            }
+
+        } else {
+            rv =scrollRatio * (values[1] - values[0]) + values[0]
+        }
+        
 
         return rv;
     } // 현재 scene이 스크롤 위치를 구하기 위한 함수
@@ -94,24 +116,29 @@
     }
     
     const scrollLoop = () => {
+        enterNewScene = false;
         prevScrollHeight = 0;
         for(let i =0; i < currentScene; i++) {
            prevScrollHeight += sceneInfo[i].scrollHeight;
        }
 
        if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
-           currentScene++;
+            enterNewScene = true;
+            currentScene++;
             document.body.setAttribute("id", `show-scene-${currentScene}`);
        } 
 
        if(yOffset < prevScrollHeight) {
-           if(currentScene === 0) {
+           enterNewScene = true;
+            if(currentScene === 0) {
                return;
            }
 
            currentScene--;
            document.body.setAttribute("id", `show-scene-${currentScene}`);
         }
+
+        if(enterNewScene) return;
 
         playAnimation();
     }
